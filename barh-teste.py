@@ -19,7 +19,7 @@ for item in lita:
     performance.append(item.PorcentagemReprovados)
 
 plt.rcdefaults()
-fig, ax = plt.subplots(figsize=(15, 5))
+fig, ax = plt.subplots(figsize=(16, 9))
 
 y_pos = np.arange(len(municipio))
 error = np.random.rand(len(municipio))
@@ -37,5 +37,5 @@ plt.savefig('images/testeImagem.png')
 im = Image.open("images/testeImagem.png")
 bg = Image.new("RGB", im.size, (255,255,255))
 bg.paste(im,im)
-bg.save("images/colors.jpg")
+bg.save("images/colors.jpg", quality=95)
 
