@@ -5,6 +5,8 @@ import wget
 from pathlib import Path
 import os
 import sys
+from urllib3.util.retry import Retry
+from requests.adapters import HTTPAdapter
 
 def GetAll(myPath):
     try:
@@ -14,8 +16,13 @@ def GetAll(myPath):
     except FileExistsError:
         print("Directory " , myPath ,  " already exists")
 
-    url = "http://www.dados.ms.gov.br/dataset"
-    r  = requests.get(url)
+    session = requests.Session()
+
+    retries = Retry(connect=3, backoff_factor=0.5)
+    session.mount('http://', HTTPAdapter(max_retries=retries))
+
+    url = "http://www.dados.ms.gov.br/dataset?groups=educacao"
+    r  =  session.get(url=url)
     data = r.text
     soupPrincipal = BeautifulSoup(data, 'html.parser')
 
@@ -27,11 +34,19 @@ def GetAll(myPath):
     for crawler in soupPrincipal.find_all("a", attrs={"data-format" : "txt"}):
         if crawler.get("data-format").find("txt") != -1:
             url = "http://www.dados.ms.gov.br" + crawler.get("href")
-            r  = requests.get(url)
+            r  = session.get(url=url)
             data = r.text
             soupDownload = BeautifulSoup(data, 'html.parser')
 
             for link in soupDownload.find_all("a"):
                 if link.get("href") != None:
                     if link.get("href").find("txt") != -1:
-                        wget.download(link.get("href").replace("./", ""), myPath)
+                        download = link.get("href").replace("./", "")
+                        splitString = download.split('/')
+                        aux = splitString[-1]
+                        existFile = myPath + aux
+                        test = os.path.isfile(existFile)
+                        if test == False:
+                            wget.download(link.get("href").replace("./", ""), myPath)
+    
+    session.close()
