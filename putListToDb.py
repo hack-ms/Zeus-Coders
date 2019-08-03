@@ -1,6 +1,6 @@
 import pyodbc
 
-def GetGeoLocationFromDB(sqlConfig, pathTxt, pathSql):
+def PutTxtIntoDB(sqlConfig, pathTxt, pathSql):
     conn = pyodbc.connect(sqlConfig)
     cursor = conn.cursor()
     
