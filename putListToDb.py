@@ -9,27 +9,26 @@ def PutTxtIntoDBNotaGeral(sqlConfig, pathTxt, table):
     aux = txt.split("\n")
     itercars = iter(aux)
     next(itercars)
-
+    j = 1
+    
     try:
         for row in itercars:
             if row != '':
                 param = row.split(';')
-                i = 0
-                while i < len(param):
-                    try:
-                        float(param[i])
-                        i +=1
-                    except ValueError:
-                        print ("Not a float")
-                        i +=1
-                #data_file.Close()
-                #values = [line.split() for line in txt]
-                result = "('%s')" % "'| '".join(map(str, param))
-                result = result.replace('"','')
-                result = result.replace('•','')
-                #result = result.replace(",", ".")
-                result = result.replace("|", ",")
+
+                if "Nota" in table:
+                    result = "('%s')" % "'| '".join(map(str, param))
+                    result = result.replace('"','')
+                    result = result.replace('•','')
+                    restul = result.replace("""', '""", ",")
+                    result = result.replace(",", ".")
+                    result = result.replace("|", ",")
+                else:
+                    result = "('%s')" % "', '".join(map(str, param))
+
                 sqlText = "INSERT INTO " + table + " VALUES " + result
+                print("\n " + str(j) + " - " + sqlText)
+                j += 1
                 cursor.execute(sqlText)
         conn.commit()
     except:

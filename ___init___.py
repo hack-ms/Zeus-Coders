@@ -1,17 +1,16 @@
-from getallfiles import GetAll
+from getallfiles import GetAllFiles
 from pathlib import Path
 from getScriptToList import GetScriptFromDBToList
 from putListToDb import PutTxtIntoDBNotaGeral
 import os, glob
 
-def main(username, password):
-    projectPath = os.path.dirname(os.path.realpath(__file__))
-    #GetAll(path + "\\texto\\")
-    #GetScriptFromDBToList(path)
+def importoToDb(projectPath):
     path = os.path.join(projectPath, "sqlserver.config")
     sqlConfig = open(path).read()
     
-    for file in os.listdir(projectPath + "\\texto"):
+    files = os.listdir(projectPath + "\\texto")
+
+    for file in files:
         if file.endswith(".txt"):
             table = ''
             if "caracteristicas" in file:
@@ -26,12 +25,28 @@ def main(username, password):
                 table="NotaDimensao"
             else:
                 table="PerfilRespondente"
-                
-            path = projectPath + "\\texto\\" + file
-            PutTxtIntoDBNotaGeral(sqlConfig, path, table)
 
+            if file == files[1]:
+                path = projectPath + "\\texto\\" + file
+                PutTxtIntoDBNotaGeral(sqlConfig, path, table)
+
+def main(username, password):
+    # Passo 1 - Baixar arquivos
+    projectPath = os.path.dirname(os.path.realpath(__file__))
+    GetAllFiles(projectPath + "\\texto\\")
     
-   
+    # Passo 2 - Importar arquivos para banco de dados
+    importoToDb(projectPath)
+
+    # Passo 3 - Consulta dados no banco de dados
+    #GetScriptFromDBToList(projectPath)
+
+    # Passo 4 - Plotar gráfico conforme a consulta
+
+    # Passo 5 - Postar na rede social
+    
+
+  
 if __name__ == "__main__":
     username = "lupadocidadao"
     password = "esaniagro12"

@@ -8,7 +8,7 @@ import sys
 from urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 
-def GetAll(myPath):
+def GetAllFiles(myPath):
     try:
         # Create target Directory
         os.mkdir(myPath)
