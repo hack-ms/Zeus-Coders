@@ -45,8 +45,10 @@ def GetAllFiles(myPath):
                         splitString = download.split('/')
                         aux = splitString[-1]
                         existFile = myPath + aux
-                        test = os.path.isfile(existFile)
-                        if test == False:
+                        importedFile = myPath + "IMPORTADO - " + aux
+                        hasFile = os.path.isfile(existFile)
+                        hasImported = os.path.isfile(importedFile)
+                        if hasFile == False and hasImported == False:
                             wget.download(link.get("href").replace("./", ""), myPath)
     
     session.close()

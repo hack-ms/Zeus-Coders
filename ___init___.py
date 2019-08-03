@@ -26,9 +26,11 @@ def importoToDb(projectPath):
             else:
                 table="PerfilRespondente"
 
-            if file == files[1]:
-                path = projectPath + "\\texto\\" + file
-                PutTxtIntoDBNotaGeral(sqlConfig, path, table)
+            textPath = projectPath + "\\texto\\"
+            path = projectPath + "\\texto\\" + file
+            
+            if 'IMPORTADO' not in path:
+                PutTxtIntoDBNotaGeral(sqlConfig, textPath, file, table)
 
 def main(username, password):
     # Passo 1 - Baixar arquivos
