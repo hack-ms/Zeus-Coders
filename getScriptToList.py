@@ -2,8 +2,7 @@ import os
 import sys
 from getlistfromdb import GetRowsFromDB
 
-def GetScriptFromDBToList():
-    projectPath = dir_path = os.path.dirname(os.path.realpath(__file__))
+def GetScriptFromDBToList(projectPath):
     path = os.path.join(projectPath, "sqlserver.config")
     sqlConfig = open(path).read()
     
