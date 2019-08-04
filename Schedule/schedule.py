@@ -7,6 +7,7 @@ import glob
 from integrations import instagram
 from integrations import faceboock
 import array as arr
+import time
 
 # Passo 1 - Baixar arquivos
 def ExtractData(projectPath):
@@ -26,7 +27,7 @@ def PlotGraph(projectPath):
     resultado = [] 
     #Escolas com maior indece de reprovação
     result = SelectDataFromDatabase(projectPath, "IndiceReprovacao.sql")
-    imgIndeceReprovacao= MetaplotLibBarhHorizontal.PlotGraphIndeceDeReprovacaoMunicipio(projectPath, result)
+    imgIndeceReprovacao= MetaplotLibBarhHorizontal.PlotGraphIndeceDeReprovacaoMunicipio(projectPath, result)    
     resultado.append({'imagem': imgIndeceReprovacao, 'caption':"CIDADÃO VENHA FISCALIZAR CONOSCO: \nVocê está satisfeito com o índice de repovação escolar do seu município? Deixe abaixo o seu comentário, o Estado precisa saber da sua opinião. Conheça mais acessando o site: http://www.transparencia.ms.gov.br para saber mais sobre as escolas do seu município."})
 
     result = SelectDataFromDatabase(projectPath, "IndiceAprovacao.sql")
@@ -41,5 +42,7 @@ def PlotGraph(projectPath):
 
 def PostSocialMidia(images):
     # Passo 5 - Postar na rede social
-    #instagram.post(images)
-    faceboock.post(images)
+    for img in images:
+        faceboock.post(img)
+        instagram.post(img)
+        time.sleep(15)    

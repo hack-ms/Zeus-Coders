@@ -3,6 +3,7 @@ from Schedule import schedule
 
 def processData(projectPath):
     images= schedule.PlotGraph(projectPath)
+
     schedule.PostSocialMidia(images)
 
 def main():
