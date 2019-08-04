@@ -1,5 +1,5 @@
 
---Exibe a porcentagem das Cidades que possuem escolas com professores com especialização 
+--Exibe a porcentagem das Cidades que possuem escolas com professores com especializaï¿½ï¿½o 
 
 DECLARE @CidadeEscola TABLE
 (
@@ -27,7 +27,7 @@ SELECT p.Cidade,
 	   count(p.Escola) AS QuantidadeEscolaEspecializada 
 FROM PerfilRespondentes p 
 WHERE p.SegmentoRespondente = 'Professores' 
-and p.Questao in('Pós-Graduação') 
+and p.Questao in('PÃ³s-GraduaÃ§Ã£o') 
 group by p.Cidade
 
 

@@ -4,6 +4,8 @@ from Database.GetScriptToList import GetScriptFromDBToList
 from pathlib import Path
 from Graph import MetaplotLibBarhHorizontal
 import glob
+from integrations import instagram
+import array as arr
 
 # Passo 1 - Baixar arquivos
 def ExtractData(projectPath):
@@ -19,21 +21,26 @@ def SelectDataFromDatabase(projectPath, sqlScript):
 
 def PlotGraph(projectPath):
     # Passo 4 - Plotar gráfico conforme a consulta
- 
+
+    resultado = [] 
     #Escolas com maior indece de reprovação
     result = SelectDataFromDatabase(projectPath, "IndiceReprovacao.sql")
     imgIndeceReprovacao= MetaplotLibBarhHorizontal.PlotGraphIndeceDeReprovacaoMunicipio(projectPath, result)
+    resultado.append({'imagem': imgIndeceReprovacao, 'caption':"Teste do post imgIndeceReprovacao"})
 
     result = SelectDataFromDatabase(projectPath, "IndiceAprovacao.sql")
-    imgIndeceAeprovacao= MetaplotLibBarhHorizontal.PlotGraphIndeceDeAprovacaoMunicipio(projectPath, result)
+    imgIndeceAprovacao= MetaplotLibBarhHorizontal.PlotGraphIndeceDeAprovacaoMunicipio(projectPath, result)
+    resultado.append({'imagem': imgIndeceAprovacao, 'caption':"Teste do post imgIndeceAprovacao"})
 
     result = SelectDataFromDatabase(projectPath, "IndeceDeEvasaoEscolar.sql")
-    imgIndeceAeprovacao= MetaplotLibBarhHorizontal.PlotGraphIndeceDeEvasaoEscolarMunicipio(projectPath, result)
+    imgIndeceEvasao= MetaplotLibBarhHorizontal.PlotGraphIndeceDeEvasaoEscolarMunicipio(projectPath, result)
+    resultado.append({'imagem': imgIndeceEvasao, 'caption':"Teste do post imgIndeceEvasao"})
 
+    return resultado
 
-def PostSocialMidia():
+def PostSocialMidia(images):
     # Passo 5 - Postar na rede social
-    socialMidia = ""
+    instagram.post(images)
 
 
 # def print_time(a='default'):

@@ -1,4 +1,3 @@
---Municipios com maiores indices de reprova��o Por Municipio
 select TOP 10
     NomeMunicipio,
     sum(MatriculasTotal) as MatriculasTotal,

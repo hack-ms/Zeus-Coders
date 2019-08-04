@@ -1,14 +1,17 @@
 import sched, time, os
 from Schedule import schedule
 
+def processData(projectPath):
+    images= schedule.PlotGraph(projectPath)
+    schedule.PostSocialMidia(images)
+
 def main():
     projectPath = os.path.dirname(os.path.realpath(__file__))
     print(time.time())
     s = sched.scheduler(time.time, time.sleep)   
     #s.enter(10, 1, schedule.ExtractData,(projectPath))
-   # s.enter(5, 2, schedule.ImportTxtToDatabase(projectPath))
-    s.enter(5, 2, schedule.PlotGraph, kwargs={'projectPath': projectPath})
-    #s.enter(5, 1, schedule.PostSocialMidia())
+    #s.enter(5, 2, schedule.ImportTxtToDatabase(projectPath))
+    s.enter(5, 2, processData, kwargs={'projectPath': projectPath})  
     s.run()
     print(time.time())
   

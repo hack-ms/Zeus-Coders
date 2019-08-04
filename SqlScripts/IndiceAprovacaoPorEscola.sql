@@ -1,4 +1,4 @@
-select 
+select top(10)
 NomeMunicipio,
 NomeUnidadeEscolar,
 MatriculasTotal,
