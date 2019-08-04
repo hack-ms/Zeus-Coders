@@ -2,7 +2,7 @@ from Files import GetAllFiles
 from Database import DatabaseIntegration
 from Database.GetScriptToList import GetScriptFromDBToList
 from pathlib import Path
-from Graph import MetaplotLibBarh
+from Graph import MetaplotLibBarhHorizontal
 import glob
 
 # Passo 1 - Baixar arquivos
@@ -17,9 +17,19 @@ def SelectDataFromDatabase(projectPath, sqlScript):
     # Passo 3 - Consulta dados no banco de dados
     return GetScriptFromDBToList(projectPath, sqlScript)
 
-def PlotGraph(projectPath, result):
+def PlotGraph(projectPath):
     # Passo 4 - Plotar gráfico conforme a consulta
-    MetaplotLibBarh.PlotGraph(projectPath, result)
+ 
+    #Escolas com maior indece de reprovação
+    result = SelectDataFromDatabase(projectPath, "IndiceReprovacao.sql")
+    imgIndeceReprovacao= MetaplotLibBarhHorizontal.PlotGraphIndeceDeReprovacaoMunicipio(projectPath, result)
+
+    result = SelectDataFromDatabase(projectPath, "IndiceAprovacao.sql")
+    imgIndeceAeprovacao= MetaplotLibBarhHorizontal.PlotGraphIndeceDeAprovacaoMunicipio(projectPath, result)
+
+    result = SelectDataFromDatabase(projectPath, "IndeceDeEvasaoEscolar.sql")
+    imgIndeceAeprovacao= MetaplotLibBarhHorizontal.PlotGraphIndeceDeEvasaoEscolarMunicipio(projectPath, result)
+
 
 def PostSocialMidia():
     # Passo 5 - Postar na rede social
